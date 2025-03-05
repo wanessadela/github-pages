@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Céu Interativo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #87CEEB; /* Azul céu */
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            position: relative;
+        }
+
+        h1 {
+            position: relative;
+            font-size: 3em;
+            color: #ffffff;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        /* Sol */
+        .sun {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            background-color: yellow;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.8);
+        }
+
+        /* Nuvens */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+            animation: float 15s linear infinite;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 10px;
+        }
+
+        .cloud::after {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            right: 10px;
+        }
+
+        /* Animação de movimento das nuvens */
+        @keyframes float {
+            from { left: -100px; }
+            to { left: 100vw; }
+        }
+
+        /* Texto "Clique na luz mais brilhante" */
+        .click-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            font-size: 0.8em;
+            color: #fff;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sun"></div>
+    <h1 id="name">Bruno Dias Carvalho</h1>
+
+    <!-- Texto "Clique na luz mais brilhante" -->
+    <div class="click-text">
+        Clique na luz mais brilhante
+    </div>
+
+    <script>
+        // Função para criar as nuvens
+        function createCloud() {
+            const cloud = document.createElement("div");
+            cloud.classList.add("cloud");
+            document.body.appendChild(cloud);
+
+            // Posição inicial aleatória para cada nuvem
+            cloud.style.left = `-100px`;
+            cloud.style.top = `${Math.random() * 70 + 10}vh`;
+            cloud.style.width = `${Math.random() * 80 + 50}px`;
+            cloud.style.height = "30px";
+
+            // Nuvem desaparecerá após 15 segundos
+            setTimeout(() => {
+                cloud.remove();
+            }, 15000); // Nuvem desaparece após 15 segundos
+        }
+
+        // Cria novas nuvens a cada 3 segundos
+        setInterval(createCloud, 3000);
+
+        // Função para mudar o nome ao clicar
+        const nameElement = document.getElementById('name');
+        nameElement.addEventListener('click', () => {
+            nameElement.textContent = 'Grande Homenzinho';
+        });
+    </script>
+</body>
+</html>
